@@ -1,11 +1,28 @@
 // buduje aplikacje
+using CarWorkshop.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using CarWorkshop.Infrastructure.Extensions;
+using CarWorkshop.Infrastructure.Seeders;
+using CarWorkshop.Application.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // dependency injection - konfiguracja kontenera
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
+
 //buduje z serwisami
 var app = builder.Build();
+
+//tworzê zakres us³ug dla aplikacji 
+var scope = app.Services.CreateScope();
+//pobieram konkretn¹ us³ugê z tego zakresu us³ug -> Seedera doda³em
+//w AddInfrastructure poprzez services.AddScoped<Seeder>()
+var seeder = scope.ServiceProvider.GetRequiredService<CarWorkshopSeeder>();
+//wywo³uje metodê, która sprawdzi czy baza danych ma recordy a jak nie ma to doda przypadkowy
+await seeder.Seed();
 
 //tutaj info jak aplikacja ma siê zachowywaæ
 // sprawdzenie czy aktualnie jesteœmy w œrodowisku develpment

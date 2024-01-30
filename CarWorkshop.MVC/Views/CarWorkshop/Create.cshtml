@@ -1,0 +1,48 @@
+﻿<h1>Create Car Workshop</h1>
+</hr>
+
+<div class="row">
+    <div class="col-md-4">
+        <!-- Tutaj akcja -> z formy wykona się akcja Create z kontrolera CarWorkshop, która ma nad sobą znacznik HttpPost-->
+        <form action="/CarWorkshop/Create" method="post">
+            <div class="form-group mb-3">
+                <label class="control-label" for="Name">Name</label>
+                <!-- Tu ważne w tym inpucie, żeby name="Name", tak smao Id to znaczy, żeby to korespondowało z właściwością po stronie backendu -->
+                <input class="form-control" type="text" id="Name" name="Name" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label" for="Description">Description</label>
+                <input class="form-control" type="text" id="Description" name="Description" />
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label" for="About">About</label>
+                <input class="form-control" type="text" id="About" name="About" />
+            </div>
+
+            <!--Pojawia się teraz pytanie jak zmapować właściwość ContactDetails, która przecież jest obiektem-->
+            <div class="form-group mb-3">
+                <label class="control-label" for="PhoneNumber">PhoneNumber</label>
+                <input class="form-control" type="text" id="PhoneNumber" name="ContactDetails.PhoneNumber" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label" for="Street">Street</label>
+                <input class="form-control" type="text" id="Street" name="ContactDetails.Street" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label" for="City">City</label>
+                <input class="form-control" type="text" id="City" name="ContactDetails.City" />
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label" for="PostalCode">PostalCode</label>
+                <input class="form-control" type="text" id="PostalCode" name="ContactDetails.PostalCode" />
+            </div>
+
+            <!--Po naciśnieciu odpali się metoda Create w backendzie-->
+            <div class="form-group mb-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
