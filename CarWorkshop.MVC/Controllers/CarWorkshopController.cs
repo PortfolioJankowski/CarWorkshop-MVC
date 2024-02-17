@@ -8,9 +8,18 @@ namespace CarWorkshop.MVC.Controllers
 
         private readonly ICarWorkshopService _carWorkshopService;
 
+        //tutaj mam dostęp do serwisów z kontenera zależności
         public CarWorkshopController(ICarWorkshopService carWorkshopService)
         {
             _carWorkshopService = carWorkshopService;
+        }
+
+        /* index czyli strona główna w konkretnym kontrolerze, żeby wyświetlić wszystkie auta
+         trzeba będzie przekazac ich liste do tego View */
+        public async Task<IActionResult> Index()
+        {
+            var carWorkshop = await _carWorkshopService.GetAll();
+            return View(carWorkshop);
         }
 
         //akcja odpowiedzialna za zwrócenie formularza
@@ -33,7 +42,7 @@ namespace CarWorkshop.MVC.Controllers
             }
             await _carWorkshopService.Create(carWorkshop);
             //tym niżej sie nie sugerować bo to tylko tymczasoe 
-            return RedirectToAction(nameof(Create));
+            return RedirectToAction(nameof(Index));
         }
     }
 }

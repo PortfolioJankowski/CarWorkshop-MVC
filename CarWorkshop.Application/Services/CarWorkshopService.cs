@@ -32,5 +32,13 @@ namespace CarWorkshop.Application.Services
             //czyli tutaj będę tak właściwie wykonywał Create konkretny warsztat na bazie
             await _carWorkshopRespository.Create(carWorkshop);
         }
+
+        //tutaj będę zwracał te wszystkie warsztaty, ale najpierw musze je zmapować jako encje DTO
+        public async Task<IEnumerable<CarWorkshopDto>> GetAll()
+        {
+            var carWorkshops = await _carWorkshopRespository.GetAll();
+            var dtos = _mapper.Map<IEnumerable<CarWorkshopDto>>(carWorkshops);
+            return dtos;
+        }
     }
 }

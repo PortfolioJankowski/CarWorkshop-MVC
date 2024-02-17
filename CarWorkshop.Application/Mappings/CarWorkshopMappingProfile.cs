@@ -26,6 +26,14 @@ namespace CarWorkshop.Application.Mappings
                     Street = src.Street,
                 }));
             //czemu nie mapuje reszty? Automaper jest na tyle ogarnięty, że sam zmapuje właściwości o tej samej nazwie i typie
+
+
+            //mapowanie w drugą stronę
+            CreateMap<Domain.Entities.CarWorkshop, CarWorkshopDto>()
+                .ForMember(dto => dto.Street, opt => opt.MapFrom(src => src.ContactDetails.Street))
+                .ForMember(dto => dto.City, opt => opt.MapFrom(src => src.ContactDetails.City))
+                .ForMember(dto => dto.PostalCode, opt => opt.MapFrom(src => src.ContactDetails.PostalCode))
+                .ForMember(dto => dto.PhoneNumber, opt => opt.MapFrom(src => src.ContactDetails.PhoneNumber));
         }
     }
 }
