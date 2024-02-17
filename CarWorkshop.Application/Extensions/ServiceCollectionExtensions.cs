@@ -1,4 +1,5 @@
-﻿using CarWorkshop.Application.Services;
+﻿using CarWorkshop.Application.Mappings;
+using CarWorkshop.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace CarWorkshop.Application.Extensions
             //przekazuje interfejs wcześniej wyekstrachowany, a pod jego typem
             //który będzie dostępny w ramach kontenera zależności będzie CarWorkshopService
             services.AddScoped<ICarWorkshopService, CarWorkshopService>();
+            services.AddAutoMapper(typeof(CarWorkshopMappingProfile));
         }
     }
 }
