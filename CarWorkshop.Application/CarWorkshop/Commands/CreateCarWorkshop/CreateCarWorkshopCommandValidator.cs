@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarWorkshop.Application.CarWorkshop
+namespace CarWorkshop.Application.CarWorkshop.Commands.CreateCarWorkshop
 {
-    public class CarWorkshopValidator : AbstractValidator<CarWorkshopDto>
+    public class CreateCarWorkshopCommandValidator : AbstractValidator<CreateCarWorkshopCommand>
     {
         //carWorkshopDtoValidator jest zarejestrowana w DI to będzie miała dostęp do ICarWorkshopRepository
-        public CarWorkshopValidator(ICarWorkshopRespository repository)
+        public CreateCarWorkshopCommandValidator(ICarWorkshopRespository repository)
         {
             RuleFor(c => c.Name)
                 .NotEmpty()
@@ -21,7 +21,7 @@ namespace CarWorkshop.Application.CarWorkshop
                 {
                     //ten result jest po to, że GetByName zwraca Taska a ja chce rezultat
                     var existingCarWorkshop = repository.GetByName(value).Result;
-                    if(existingCarWorkshop != null)
+                    if (existingCarWorkshop != null)
                     {
                         //jeżeli nie mamy nulla to znaczy że w bazie jest już takie imię
                         context.AddFailure($"{value} is not unique name for car workshop");

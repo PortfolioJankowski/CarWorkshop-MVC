@@ -1,6 +1,4 @@
-﻿using CarWorkshop.Application.CarWorkshop;
-using CarWorkshop.Application.Mappings;
-using CarWorkshop.Application.Services;
+﻿using CarWorkshop.Application.Mappings;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -9,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using FluentValidation;
+using CarWorkshop.Application.CarWorkshop.Commands.CreateCarWorkshop;
+using MediatR;
 
 namespace CarWorkshop.Application.Extensions
 {
@@ -18,10 +18,10 @@ namespace CarWorkshop.Application.Extensions
         {
             //przekazuje interfejs wcześniej wyekstrachowany, a pod jego typem
             //który będzie dostępny w ramach kontenera zależności będzie CarWorkshopService
-            services.AddScoped<ICarWorkshopService, CarWorkshopService>();
+            services.AddMediatR(typeof(CreateCarWorkshopCommand));
             services.AddAutoMapper(typeof(CarWorkshopMappingProfile));
 
-            services.AddValidatorsFromAssemblyContaining<CarWorkshopValidator>()
+            services.AddValidatorsFromAssemblyContaining<CreateCarWorkshopCommandValidator>()
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
         }
