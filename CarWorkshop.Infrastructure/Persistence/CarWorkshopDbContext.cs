@@ -5,11 +5,12 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using CarWorkshop.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CarWorkshop.Infrastructure.Persistence
 {
     //reorezentacja bazy danych
-    public class CarWorkshopDbContext : DbContext
+    public class CarWorkshopDbContext : IdentityDbContext
     {
         public DbSet<Domain.Entities.CarWorkshop> CarWorkshops{ get; set; }
 
@@ -30,6 +31,7 @@ namespace CarWorkshop.Infrastructure.Persistence
         //dał int Id. Ale nie chce tego robić, tylko zaznaczyć że to jest po prostu właściwość!
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Domain.Entities.CarWorkshop>()
                 .OwnsOne(c => c.ContactDetails);
         }

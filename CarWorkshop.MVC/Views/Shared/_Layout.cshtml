@@ -1,7 +1,7 @@
 ﻿@{
     //zmienna będzie miała inną wartość w zależności od tego na jakiej stronie jestem
-    var currentUrl = ViewContext.RouteData.Values["Action"]!.ToString();
-    var currentController = ViewContext.RouteData.Values["Controller"]!.ToString();
+    var currentUrl = ViewContext.RouteData.Values["Action"]?.ToString();
+    var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
 }
 
 <!DOCTYPE html>
@@ -38,6 +38,7 @@
                             <a class="nav-link text-dark @(currentController == "Home" &&currentUrl == "About" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>

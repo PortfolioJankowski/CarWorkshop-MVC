@@ -49,5 +49,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+//Login korzysta z RazorPages, wiêc trzeba sobie to zmapowaæ
+app.MapRazorPages();
 // jak to dzia³a? Home to folder w Views, i ma plik Index :D wiêc tak aplikacja szuka plików
 app.Run();
