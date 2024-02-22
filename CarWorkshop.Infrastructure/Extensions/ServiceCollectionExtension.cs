@@ -24,9 +24,11 @@ namespace CarWorkshop.Infrastructure.Extensions
             services.AddDbContext<CarWorkshopDbContext>(options => options.UseSqlServer(
             configuration.GetConnectionString("CarWorkshop")));
 
+
             //klasa użytkownika (domyślna) - definiuje w sobie kilka właściwości
             //AddEFStores - integracja całego systemu
             services.AddDefaultIdentity<IdentityUser>()
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<CarWorkshopDbContext>();
 
             services.AddScoped<CarWorkshopSeeder>();

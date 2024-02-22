@@ -5,6 +5,7 @@ using CarWorkshop.Application.CarWorkshop.Commands.EditCarWorkshop;
 using CarWorkshop.Application.CarWorkshop.Queries.GetAllCarWorkshopQuery;
 using CarWorkshop.Application.CarWorkshop.Queries.GetCarWorkshopByEncodedNameQuery;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarWorkshop.MVC.Controllers
@@ -28,10 +29,11 @@ namespace CarWorkshop.MVC.Controllers
             return View(carWorkshop);
         }
 
-        //akcja odpowiedzialna za zwrócenie formularza
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            return View();
+       
+                return View();
         }
         //atrybut pozwalający nam zmienić Routing
         [Route("CarWorkshop/{encodedName}/Details")]
@@ -45,6 +47,11 @@ namespace CarWorkshop.MVC.Controllers
         public async Task<IActionResult> Edit(string encodedName)
         {
             var dto = await _mediator.Send(new GetCarWorkshopByEncodedNameQuery(encodedName));
+            if (!dto.IsEditable)
+            {
+                //jeżeli użytkownik nie jest zdolny do edycji zasobu to zostanie przekierowany
+                return RedirectToAction("NoAccess", "Home");
+            }
             EditCarWorkshopCommand model = _mapper.Map<EditCarWorkshopCommand>(dto);
             return View(model);
         }
@@ -57,6 +64,7 @@ namespace CarWorkshop.MVC.Controllers
             {
                 return View(command);
             }
+
             await _mediator.Send(command);
             //tym niżej sie nie sugerować bo to tylko tymczasoe 
             return RedirectToAction(nameof(Index));

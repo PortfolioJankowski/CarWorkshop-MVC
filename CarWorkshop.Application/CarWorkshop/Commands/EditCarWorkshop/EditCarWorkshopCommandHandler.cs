@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CarWorkshop.Application.ApplicationUser;
 using CarWorkshop.Domain.Interfaces;
 using MediatR;
 using System;
@@ -12,17 +13,23 @@ namespace CarWorkshop.Application.CarWorkshop.Commands.EditCarWorkshop
     public class EditCarWorkshopCommandHandler : IRequestHandler<EditCarWorkshopCommand>
     {
         private readonly ICarWorkshopRespository _carWorkshopRepository;
-        private readonly IMapper _mapper;
+        private readonly IUserContext _userContext;
 
-        public EditCarWorkshopCommandHandler(ICarWorkshopRespository carWorkshopRespository, IMapper mapper)
+        public EditCarWorkshopCommandHandler(ICarWorkshopRespository carWorkshopRespository, IUserContext userContext)
         {
             _carWorkshopRepository = carWorkshopRespository;
-            _mapper = mapper;
+            _userContext = userContext;
         }
 
         public async Task<Unit> Handle(EditCarWorkshopCommand request, CancellationToken cancellationToken)
         {
             var carWorkshop = await _carWorkshopRepository.GetByEncodedName(request.EncodedName!);
+            var user = _userContext.GetCurrentUser();
+            var isEditable = user != null && carWorkshop.CreatedById == user.Id;
+            if(!isEditable)
+            {
+                return Unit.Value;
+            }
             carWorkshop.Description = request.Description;
             carWorkshop.About = request.About;
             carWorkshop.ContactDetails.City = request.City;
