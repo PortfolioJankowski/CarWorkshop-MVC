@@ -43,6 +43,7 @@ namespace CarWorkshop.MVC.Controllers
             return View(dto);
         }
 
+        [Authorize(Roles = "Moderator")]
         [Route("CarWorkshop/{encodedName}/Edit")]
         public async Task<IActionResult> Edit(string encodedName)
         {

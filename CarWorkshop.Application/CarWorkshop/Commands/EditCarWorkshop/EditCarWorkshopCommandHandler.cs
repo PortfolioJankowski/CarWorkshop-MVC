@@ -36,7 +36,10 @@ namespace CarWorkshop.Application.CarWorkshop.Commands.EditCarWorkshop
             carWorkshop.ContactDetails.PhoneNumber = request.PhoneNumber;
             carWorkshop.ContactDetails.PostalCode = request.PostalCode;
             carWorkshop.ContactDetails.Street = request.Street;
-            await _carWorkshopRepository.Commit();
+            if (user.IsInRole("Moderator"))
+            {
+                await _carWorkshopRepository.Commit();
+            }
             return Unit.Value;
         }
     }
