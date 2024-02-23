@@ -4,9 +4,12 @@ using CarWorkshop.Application.CarWorkshop.Commands.CreateCarWorkshop;
 using CarWorkshop.Application.CarWorkshop.Commands.EditCarWorkshop;
 using CarWorkshop.Application.CarWorkshop.Queries.GetAllCarWorkshopQuery;
 using CarWorkshop.Application.CarWorkshop.Queries.GetCarWorkshopByEncodedNameQuery;
+using CarWorkshop.MVC.Extensions;
+using CarWorkshop.MVC.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CarWorkshop.MVC.Controllers
 {
@@ -75,6 +78,7 @@ namespace CarWorkshop.MVC.Controllers
         warto pamiętać, że logika aplikacji ma swoje osobne miejsce a nie tutaj -> Services/CarWorkshopService
         dlatego przekazuje carWorkshopService przez konstruktor */
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CreateCarWorkshopCommand command)
         {
             //jeżeli model nie został prawidłowo zwalidowany to zwróc mi widok, a jeżeli został to dodaje do bazy
@@ -84,8 +88,9 @@ namespace CarWorkshop.MVC.Controllers
                 //nastąpiła zamiana z obiektu na komendę (wzorzec mediator)
                 return View(command);
             }
-            await _mediator.Send(command);
-            //tym niżej sie nie sugerować bo to tylko tymczasoe 
+            //await _mediator.Send(command);
+
+            this.SetNotification("success", $"Created workshop: {command.Name}");
             return RedirectToAction(nameof(Index));
         }
     }
