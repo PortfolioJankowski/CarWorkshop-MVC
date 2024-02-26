@@ -32,5 +32,8 @@ namespace CarWorkshop.Domain.Entities
 
         //metoda, która będzie to ogrywać
         public void EncodeName() => EncodedName = Name.ToLower().Replace(" ", "-");
+
+        //usługi oferowane przez warsztat samochodowy
+        public List<CarWorkshopService> Services { get; set; } = new();
     }
 }
