@@ -50,15 +50,14 @@
 </div>
 
 <!--Implementacja częściowego widoku, w którym tworzę nowy CreateCarWorkshopServiceCommand, do którego przypisuje Encoded name z modela-->
-<div>
+<div class="m-3">
     <partial name="_CreateCarWorkshopService" model="new CreateCarWorkshopServiceCommand() { CarWorkshopEndcodedName = Model.EncodedName}"/>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
 
-<div>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-</div>
-
+<h3>Services:</h3>
+<!-- data-encodedName, ten atrybut pozwoli odczytać w JSie dane->
+<div id="services" class="row" data-encoded-name="@Model.EncodedName"></div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <!--W tej lokalizacji będzie kod JS do obsługi widoku częsciowego-->
