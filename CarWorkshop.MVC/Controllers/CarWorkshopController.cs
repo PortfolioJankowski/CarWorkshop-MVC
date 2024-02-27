@@ -4,6 +4,7 @@ using CarWorkshop.Application.CarWorkshop.Commands.CreateCarWorkshop;
 using CarWorkshop.Application.CarWorkshop.Commands.EditCarWorkshop;
 using CarWorkshop.Application.CarWorkshop.Queries.GetAllCarWorkshopQuery;
 using CarWorkshop.Application.CarWorkshop.Queries.GetCarWorkshopByEncodedNameQuery;
+using CarWorkshop.Application.CarWorkshopService.Commands;
 using CarWorkshop.MVC.Extensions;
 using CarWorkshop.MVC.Models;
 using MediatR;
@@ -45,6 +46,7 @@ namespace CarWorkshop.MVC.Controllers
             var dto = await _mediator.Send(new GetCarWorkshopByEncodedNameQuery(encodedName));
             return View(dto);
         }
+
 
         [Authorize(Roles = "Moderator")]
         [Route("CarWorkshop/{encodedName}/Edit")]
@@ -88,10 +90,27 @@ namespace CarWorkshop.MVC.Controllers
                 //nastąpiła zamiana z obiektu na komendę (wzorzec mediator)
                 return View(command);
             }
-            //await _mediator.Send(command);
+            await _mediator.Send(command);
 
             this.SetNotification("success", $"Created workshop: {command.Name}");
             return RedirectToAction(nameof(Index));
+        }
+
+        /* Ciekawe rozwiązanie - nie zwracam całego widoku (w końcu modal jest partial View), 
+         * informuje tylko o statusie błędu, albo pomyślnym dodaniu */
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Route("CarWorkshop/CarWorkshopService")]
+        public async Task<IActionResult> CreateCarWorkshopService(CreateCarWorkshopServiceCommand command)
+        {
+            //jeżeli model nie został prawidłowo zwalidowany to zwróc mi widok, a jeżeli został to dodaje do bazy
+            if (!ModelState.IsValid)
+            {
+                //informujemy o błędach
+                return BadRequest(ModelState);
+            }
+            await _mediator.Send(command);
+            return Ok();
         }
     }
 }
