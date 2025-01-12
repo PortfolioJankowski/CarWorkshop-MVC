@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // dependency injection - konfiguracja kontenera
 builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration)
 builder.Services.AddApplication();
 
 //buduje z serwisami
