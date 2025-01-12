@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews(options => options.SuppressImplicitRequ
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
-
+//niepotrzebny commit
 //buduje z serwisami
 var app = builder.Build();
 
